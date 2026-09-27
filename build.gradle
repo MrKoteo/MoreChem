@@ -1,0 +1,113 @@
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.53', changing: true
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+
+
+version = mod_version
+group = project.findProperty('group') ?: 'morechem'
+archivesBaseName = '[1.12.2] MoreChem'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+
+minecraft {
+    mappings channel: 'snapshot', version: '20171003-1.12'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                astrotweaks {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                astrotweaks {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+processResources {
+    inputs.property "mod_version", mod_version
+    inputs.property "mod_description", project.findProperty('mod_description') ?: ''
+    filesMatching('mcmod.info') {
+        expand(
+            mod_version: mod_version,
+            mod_description: project.findProperty('mod_description') ?: '',
+        )
+    }
+}
+
+
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://cursemaven.com"
+    }
+    //maven { url 'https://maven.blamejared.com/' } // JEI
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+
+    implementation "curse.maven:alchemistry-293425:3186612"
+    implementation files("libs/alib-1.12.2-1.0.12.jar")
+
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+jar {
+    manifest {
+        attributes(
+            'ForceLoadAsMod': 'true',
+            'TweakOrder': '0',
+            'Specification-Title': 'MoreChem',
+            'Specification-Vendor': 'MoreChem',
+            'Specification-Version': '1',
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'MoreChem'
+        )
+    }
+    // If have resources, make sure they are copied
+    from sourceSets.main.output.classesDirs
+    from sourceSets.main.output.resourcesDir
+}
+
+
+
+// ========== JSON MINIFIER ==========
+afterEvaluate {
+    processResources {
+        doLast {
+            def outputDir = destinationDir ?: outputs.files.singleFile
+            fileTree(dir: outputDir, include: ['**/*.json','**/*.mcmeta']).each { file ->
+                try {
+                    file.text = groovy.json.JsonOutput.toJson(new groovy.json.JsonSlurper().parse(file))
+                } catch (Exception ignore) {}
+            }
+        }
+    }
+}
