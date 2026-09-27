@@ -22,7 +22,7 @@ public class DissolverRecipeRegistrar {
 // rolls -  roll count
 // relative - type (Absolute/Relative)
 
-static final List<String> L = Collections.unmodifiableList(Arrays.asList(
+private static List<String> L = new ArrayList<>(Arrays.asList(
 "morechem:compound:1,   true, 1, 1, false, 100, alchemistry:element:47*2, alchemistry:element:6*2",
 "morechem:compound:2,   true, 1, 1, false, 100, alchemistry:element:6*2,  alchemistry:element:8*4",
 "morechem:compound:3,   true, 1, 1, false, 100, alchemistry:element:6,    alchemistry:element:8*3",
@@ -347,6 +347,7 @@ static final List<String> L = Collections.unmodifiableList(Arrays.asList(
 
     // ---------- Public reg ----------
     public static void registerAll() {
+		if (L == null) return;
         for (String line : L) {
             try {
                 parseAndRegister(line);
@@ -355,6 +356,9 @@ static final List<String> L = Collections.unmodifiableList(Arrays.asList(
                 e.printStackTrace();
             }
         }
+
+		L.clear();
+		L = null;
     }
 
     // ---------- parse & register one recipe ----------

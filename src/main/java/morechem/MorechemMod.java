@@ -21,6 +21,7 @@ import morechem.item.MorechemItems;
 import morechem.recipe.AlRecipesRemover;
 import morechem.recipe.CombinerRecipeRegistrar;
 import morechem.recipe.DissolverRecipeRegistrar;
+import morechem.recipe.RecipeUtils;
 
 
 
@@ -55,12 +56,17 @@ public class MorechemMod {
 		AlRecipesRemover.registerAll();
 		DissolverRecipeRegistrar.registerAll();
 		CombinerRecipeRegistrar.registerAll();
+
+		RecipeUtils.clearCache();
+
 		proxy.init(event);
 	}
 
 	@Mod.EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);
+
+		morechem.item.MorechemItems.clearCache();
 	}
 
 	@Mod.EventHandler

@@ -16,7 +16,7 @@ public class CombinerRecipeRegistrar {
 
 // ex:    output, quantity, inp1, inp2...
 
-private static final List<String> L = Collections.unmodifiableList(Arrays.asList(
+private static List<String> L = new ArrayList<>(Arrays.asList(
     "alchemistry:neon_light, 1, alchemistry:element:10, alchemistry:compound:1*2"
 
     // others
@@ -72,6 +72,7 @@ private static final List<String> L = Collections.unmodifiableList(Arrays.asList
 
     // ---------- reg ----------
     public static void registerAll() {
+        if (L == null) return;
         for (String line : L) {
             try {
                 parseAndRegister(line);
@@ -80,6 +81,9 @@ private static final List<String> L = Collections.unmodifiableList(Arrays.asList
                 e.printStackTrace();
             }
         }
+
+		L.clear();
+		L = null;
     }
 
     private static void parseAndRegister(String line) throws Exception {

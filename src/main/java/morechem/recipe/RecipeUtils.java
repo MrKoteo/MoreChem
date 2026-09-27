@@ -94,4 +94,6 @@ public final class RecipeUtils {
         if (s == null) return def;
         try { return Double.parseDouble(s.trim()); } catch (Exception e) { return def; }
     }
+
+    public static void clearCache() { ITEM_CACHE.clear(); }
 }
