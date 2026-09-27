@@ -188,6 +188,39 @@ item.compound_169.name=Фенол
 item.compound_170.name=Анилин
 item.compound_171.name=Фтороводород
 item.compound_172.name=Оксид ванадия (V)
+item.compound_173.name=Гексацианоферрат(II) калия тригидрат
+item.compound_174.name=Гексацианоферрат(III) калия
+item.compound_175.name=Берлинская лазурь
+item.compound_176.name=Роданид железа(III)
+item.compound_177.name=Хлорид кобальта(II)
+item.compound_178.name=Сульфат меди(II) безводный
+item.compound_179.name=Карбонат кобальта(II)
+item.compound_180.name=Оксид кобальта(II,III)
+item.compound_181.name=Титанат бария
+item.compound_182.name=Феррит никеля-цинка
+item.compound_183.name=Нейлон-6,6
+item.compound_184.name=Кевлар
+item.compound_185.name=Эпоксидная смола
+item.compound_186.name=Аспирин (Ацетилсалициловая кислота)
+item.compound_187.name=Парацетамол (Ацетаминофен)
+item.compound_188.name=Ибупрофен
+item.compound_189.name=Кодеин
+item.compound_190.name=Пенициллин G
+item.compound_191.name=Адреналин (Эпинефрин)
+item.compound_192.name=Тринитрорезорцин (Стифниновая кислота)
+item.compound_193.name=Пикрат аммония
+item.compound_194.name=Нитрат гидразина
+item.compound_195.name=Белый фосфор
+item.compound_196.name=Хитозан
+item.compound_197.name=Кобальтовый фиолетовый
+item.compound_198.name=Кобальтовый зелёный (Ринмана зелёный)
+item.compound_199.name=Тетрациклин
+item.compound_200.name=Кадмиевый красный
+item.compound_201.name=Агароза
+item.compound_202.name=Титановые белила
+item.compound_203.name=Люминол
+
+
 
 # Misc
 

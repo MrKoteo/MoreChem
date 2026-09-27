@@ -19,6 +19,8 @@ public class CombinerRecipeRegistrar {
 private static List<String> L = new ArrayList<>(Arrays.asList(
     "alchemistry:neon_light, 1, alchemistry:element:10, alchemistry:compound:1*2"
 
+
+    //"alchemistry:neon_light, 1, alchemistry:element:10, alchemistry:compound:1*2"
     // others
 ));
 

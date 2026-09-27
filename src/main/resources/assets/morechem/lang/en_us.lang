@@ -188,6 +188,39 @@ item.compound_169.name=Phenol
 item.compound_170.name=Aniline
 item.compound_171.name=Hydrogen fluoride
 item.compound_172.name=Vanadium (V) oxide
+item.compound_173.name=Potassium ferrocyanide trihydrate
+item.compound_174.name=Potassium ferricyanide
+item.compound_175.name=Prussian blue
+item.compound_176.name=Iron(III) thiocyanate
+item.compound_177.name=Cobalt(II) chloride
+item.compound_178.name=Anhydrous copper(II) sulfate
+item.compound_179.name=Cobalt(II) carbonate
+item.compound_180.name=Cobalt(II,III) oxide
+item.compound_181.name=Barium titanate
+item.compound_182.name=Nickel-zinc ferrite
+item.compound_183.name=Nylon-6,6
+item.compound_184.name=Kevlar
+item.compound_185.name=Epoxy resin
+item.compound_186.name=Aspirin (Acetylsalicylic acid)
+item.compound_187.name=Paracetamol (Acetaminophen)
+item.compound_188.name=Ibuprofen
+item.compound_189.name=Codeine
+item.compound_190.name=Penicillin G
+item.compound_191.name=Adrenaline (Epinephrine)
+item.compound_192.name=Trinitroresorcinol (Styphnic acid)
+item.compound_193.name=Ammonium picrate
+item.compound_194.name=Hydrazine nitrate
+item.compound_195.name=White phosphorus
+item.compound_196.name=Chitosan
+item.compound_197.name=Cobalt violet
+item.compound_198.name=Cobalt green (Rinmann's green)
+item.compound_199.name=Tetracycline
+item.compound_200.name=Cadmium red
+item.compound_201.name=Agarose
+item.compound_202.name=Titanium white
+item.compound_203.name=Luminol
+
+
 
 # Misc
 

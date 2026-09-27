@@ -230,22 +230,21 @@ public final class ItemCompound {
         "188,compound_188,C₁₃H₁₈O₂",
         "189,compound_189,C₁₈H₂₁NO₃",
         "190,compound_190,C₁₆H₁₈N₂O₄S",
-        "190,compound_190,C₂₂H₂₄N₂O₈",
         "191,compound_191,C₉H₁₃NO₃",
         "192,compound_192,C₆H₃N₃O₈",
         "193,compound_193,C₆H₆N₄O₇",
         "194,compound_194,N₂H₅NO₃",
         "195,compound_195,P₄",
-        "196,compound_196,CoAl₂O₄",
+        "196,compound_196,(C₆H₁₁NO₄)ₙ",
         "197,compound_197,Co₃(PO₄)₂",
         "198,compound_198,CoZnO₂",
-        "199,compound_199,CdS",
+        "199,compound_199,C₂₂H₂₄N₂O₈",
         "200,compound_200,CdSe",
-        "201,compound_201,Cr₂O₃",
+        "201,compound_201,C₂₄H₃₈O₁₉",
         "202,compound_202,TiO₂",
         "203,compound_203,C₈H₇N₃O₂",
-        "204,compound_204,(C₆H₁₁NO₄)ₙ",
-        "205,compound_205,C₂₄H₃₈O₁₉",
+
+
         //"206,compound_206,meow",
         //"207,compound_207,meow",
         //"208,compound_208,meow",
@@ -297,6 +296,7 @@ public final class ItemCompound {
 
 	// format: "meta,tooltip"
 	private static final String[] EXTRA_TOOLTIPS = new String[] {
+		//     тултип: 'BB: ' + Тротиловый эквивалент на КГ массы + энерговыделение КГ + скорость детонации (бризантность)
 		"16," +TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 0.4T" +" | "+TextFormatting.GOLD+"E = 1700 kJ/kg"+" | "+TextFormatting.AQUA+"B = 4000 m/s",
 		"64," +TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 1.0T" +" | "+TextFormatting.GOLD+"E = 4520 kJ/kg"+" | "+TextFormatting.AQUA+"B = 6900 m/s",
 		"110,"+TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 0.3T" +" | "+TextFormatting.GOLD+"E = 1600 kJ/kg"+" | "+TextFormatting.AQUA+"B = 5300 m/s",
@@ -323,7 +323,11 @@ public final class ItemCompound {
 		"138,"+TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 1.1T" +" | "+TextFormatting.GOLD+"E = 4500 kJ/kg"+" | "+TextFormatting.AQUA+"B = 8000 m/s",
 		"139,"+TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 2.7T" +" | "+TextFormatting.GOLD+"E = 7500 kJ/kg"+" | "+TextFormatting.AQUA+"B = 11000 m/s",
 		"160,"+TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 1.6T" +" | "+TextFormatting.GOLD+"E = 5360 kJ/kg"+" | "+TextFormatting.AQUA+"B = 8750 m/s",
-	    
+		"192,"+TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 1.1T" +" | "+TextFormatting.GOLD+"E = 5000 kJ/kg"+" | "+TextFormatting.AQUA+"B = 7100 m/s",
+		"193,"+TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 0.9T" +" | "+TextFormatting.GOLD+"E = 4100 kJ/kg"+" | "+TextFormatting.AQUA+"B = 6900 m/s",
+		"194,"+TextFormatting.RED+"BB: "+TextFormatting.YELLOW+"C = 0.9T" +" | "+TextFormatting.GOLD+"E = 4300 kJ/kg"+" | "+TextFormatting.AQUA+"B = 8190 m/s",
+
+
 	    // others...
 	};
 
