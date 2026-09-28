@@ -1,15 +1,12 @@
 package morechem.recipe;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+
+
 
 public class CombinerRecipeRegistrar {
 // L = recipeLines
@@ -17,33 +14,25 @@ public class CombinerRecipeRegistrar {
 // ex:    output, quantity, inp1, inp2...
 
 private static List<String> L = new ArrayList<>(Arrays.asList(
-    "alchemistry:neon_light, 1, alchemistry:element:10, alchemistry:compound:1*2"
+    "alchemistry:neon_light, 1, alchemistry:element:10, alchemistry:compound:1*2",
 
 
-    //"alchemistry:neon_light, 1, alchemistry:element:10, alchemistry:compound:1*2"
+    "minecraft:dye:10, 1, morechem:compound:198*4",
+    "minecraft:dye:5,  1, morechem:compound:197*4",
+    "minecraft:dye:1,  1, morechem:compound:200*4"
     // others
 ));
 
     // ---------- Reflection setup ----------
+    private static final String DEFAULT_STAGE = "";
     private static final Constructor<?> COMBINER_CONSTRUCTOR;
     private static final List<Object> RECIPE_LIST;
-    private static String DEFAULT_STAGE;
 
     static {
         try {
-            Class<?> combinerClass;
-            String basePkg;
-            try {
-                basePkg = "al132.alchemistry";
-                combinerClass = Class.forName(basePkg + ".recipes.CombinerRecipe");
-                System.out.println("MCRX: Alchemistry original detected (Combiner)");
-                DEFAULT_STAGE = ""; 
-            } catch (ClassNotFoundException e) {
-                basePkg = "io.enderdev.alchemistry";
-                combinerClass = Class.forName(basePkg + ".recipes.CombinerRecipe");
-                System.out.println("MCRX: Alchemistry fork EnderDev detected (Combiner)");
-                DEFAULT_STAGE = "";
-            }
+            String basePkg = AlRecipesAccessor.basePackage("");
+
+            Class<?> combinerClass = AlRecipesAccessor.recipeClass(basePkg, "CombinerRecipe");
 
             // CombinerRecipe(ItemStack output, List<ItemStack> inputs, String stage)
             COMBINER_CONSTRUCTOR = combinerClass.getConstructor(
@@ -52,21 +41,7 @@ private static List<String> L = new ArrayList<>(Arrays.asList(
             COMBINER_CONSTRUCTOR.setAccessible(true);
 
             // get recipes list
-            if (basePkg.startsWith("al132")) {
-                Class<?> modRecipesClass = Class.forName(basePkg + ".recipes.ModRecipes");
-                Field instanceField = modRecipesClass.getField("INSTANCE");
-                Object modRecipes = instanceField.get(null);
-                Method getListMethod = modRecipesClass.getMethod("getCombinerRecipes");
-                RECIPE_LIST = (List<Object>) getListMethod.invoke(modRecipes);
-            } else {
-                Class<?> regClass = Class.forName(basePkg + ".recipes.register.CombinerRegister");
-                Field companionField = regClass.getField("Companion");
-                Object companionObj = companionField.get(null);
-                Method getInstMethod = companionObj.getClass().getMethod("getINSTANCE");
-                Object combinerReg = getInstMethod.invoke(companionObj);
-                Method getRecipesMethod = regClass.getMethod("getRecipes");
-                RECIPE_LIST = (List<Object>) getRecipesMethod.invoke(combinerReg);
-            }
+            RECIPE_LIST = AlRecipesAccessor.recipeList(basePkg, "getCombinerRecipes", "CombinerRegister");
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize CombinerRecipe integration", e);
         }

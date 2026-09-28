@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "morechem:items/u2"
+    "layer0": "morechem:items/u1"
   }
 }

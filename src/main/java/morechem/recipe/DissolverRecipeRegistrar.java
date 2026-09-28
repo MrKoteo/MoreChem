@@ -7,8 +7,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.*;
 
 
@@ -220,19 +218,22 @@ private static List<String> L = new ArrayList<>(Arrays.asList(
 "morechem:compound:188, true, 1, 1, false, 100, alchemistry:element:6*13, alchemistry:element:1*18,  alchemistry:element:8*2",
 "morechem:compound:189, true, 1, 1, false, 100, alchemistry:element:6*18, alchemistry:element:1*21,  morechem:compound:19",
 "morechem:compound:190, true, 1, 1, false, 100, alchemistry:element:6*16, alchemistry:element:1*18,  alchemistry:element:7*2,  alchemistry:element:8*4, alchemistry:element:16",
-"morechem:compound:191, true, 1, 1, false, 100, alchemistry:element:6*9,  alchemistry:element:1*13,  morechem:compound:19",
+"morechem:compound:191, true, 1, 1, false, 100, alchemistry:element:6*8,  alchemistry:element:1*7,   alchemistry:element:7*3,  alchemistry:element:8*2",
 "morechem:compound:192, true, 1, 1, false, 100, morechem:compound:119,    alchemistry:element:8",
 "morechem:compound:193, true, 1, 1, false, 100, morechem:compound:119,    morechem:compound:104",
 "morechem:compound:194, true, 1, 1, false, 100, morechem:compound:97,     morechem:compound:51",
 "morechem:compound:195, true, 1, 1, false, 100, alchemistry:element:15*4",
+"morechem:compound:196, true, 1, 1, false, 100, alchemistry:element:6*6,  alchemistry:element:1*11,  alchemistry:element:7,    alchemistry:element:8*4",
 "morechem:compound:197, true, 1, 1, false, 100, alchemistry:element:27*3, morechem:compound:10*2",
 "morechem:compound:198, true, 1, 1, false, 100, alchemistry:element:27,   alchemistry:element:30,    alchemistry:element:8*2",
+"morechem:compound:199, true, 1, 1, false, 100, alchemistry:element:6*22, alchemistry:element:1*24,  alchemistry:element:7*2,  alchemistry:element:8*8",
 "morechem:compound:200, true, 1, 1, false, 100, alchemistry:element:48,   alchemistry:element:34",
+"morechem:compound:201, true, 1, 1, false, 100, alchemistry:element:6*24, alchemistry:element:1*38,  alchemistry:element:8*19",
 "morechem:compound:202, true, 1, 1, false, 100, alchemistry:element:22,   alchemistry:element:8*2",
-"morechem:compound:203, true, 1, 1, false, 100, alchemistry:element:6*8,  alchemistry:element:1*7,   alchemistry:element:7*3,  alchemistry:element:8*2",
-"morechem:compound:204, true, 1, 1, false, 100, alchemistry:element:6*6,  alchemistry:element:1*11,  alchemistry:element:7,    alchemistry:element:8*4",
-"morechem:compound:205, true, 1, 1, false, 100, alchemistry:element:6*24, alchemistry:element:1*38,  alchemistry:element:8*19",
-"morechem:compound:206, true, 1, 1, false, 100, alchemistry:element:6*22, alchemistry:element:1*24,  alchemistry:element:7*2,  alchemistry:element:8*8",
+
+
+
+
 
 
 
@@ -310,67 +311,28 @@ private static List<String> L = new ArrayList<>(Arrays.asList(
 
 
 	// ---------- add recipes ----------
-	private interface RecipeAdder {
-	    void addRecipe(Object recipe) throws Exception;
-	}
-	private static final RecipeAdder ADDER;
-
+	private static final List<Object> RECIPE_LIST;
 
 	static {
 	    try {
-	        // Determine the mod version and load the main classes
-	        Class<?> dissolverClass;
-	        Class<?> probSetClass;
-	        Class<?> probGroupClass;
-	        String basePkg;
-	        try {
-	            basePkg = "al132.alchemistry";
-	            dissolverClass = Class.forName(basePkg + ".recipes.DissolverRecipe");
-	            probSetClass = Class.forName(basePkg + ".recipes.ProbabilitySet");
-	            probGroupClass = Class.forName(basePkg + ".recipes.ProbabilityGroup");
-	            System.out.println("MCRX: Alchemistry original detected");
-	        } catch (ClassNotFoundException e) {
-	            basePkg = "io.enderdev.alchemistry";
-	            dissolverClass = Class.forName(basePkg + ".recipes.DissolverRecipe");
-	            probSetClass = Class.forName(basePkg + ".recipes.ProbabilitySet");
-	            probGroupClass = Class.forName(basePkg + ".recipes.ProbabilityGroup");
-	            System.out.println("MCRX: Alchemistry fork (EnderDev) detected");
-	        }
-	
+	        String basePkg = AlRecipesAccessor.basePackage("");
+
+	        Class<?> dissolverClass = AlRecipesAccessor.recipeClass(basePkg, "DissolverRecipe");
+	        Class<?> probSetClass = AlRecipesAccessor.recipeClass(basePkg, "ProbabilitySet");
+	        Class<?> probGroupClass = AlRecipesAccessor.recipeClass(basePkg, "ProbabilityGroup");
+
 	        PROBABILITY_GROUP_CONSTRUCTOR = probGroupClass.getConstructor(List.class, double.class);
 	        PROBABILITY_GROUP_CONSTRUCTOR.setAccessible(true);
-	
+
 	        PROBABILITY_SET_CONSTRUCTOR = probSetClass.getConstructor(List.class, boolean.class, int.class);
 	        PROBABILITY_SET_CONSTRUCTOR.setAccessible(true);
-	
+
 	        DISSOLVER_CONSTRUCTOR = dissolverClass.getConstructor(Ingredient.class, boolean.class, probSetClass);
 	        DISSOLVER_CONSTRUCTOR.setAccessible(true);
-	
+
 	        // ---------- Get recipes list ----------
-	        final List<Object> recipeList;
-	        if (basePkg.startsWith("al132")) {
-	            // Main: ModRecipes.INSTANCE.getDissolverRecipes()
-	            Class<?> modRecipesClass = Class.forName(basePkg + ".recipes.ModRecipes");
-	            Field instanceField = modRecipesClass.getField("INSTANCE");
-	            Object modRecipes = instanceField.get(null);
-	            Method getListMethod = modRecipesClass.getMethod("getDissolverRecipes");
-	            recipeList = (List<Object>) getListMethod.invoke(modRecipes);
-	        } else {
-	            // Fork EnderDev: DissolverRegister.Companion.getINSTANCE().getRecipes()
-	            Class<?> regClass = Class.forName(basePkg + ".recipes.register.DissolverRegister");
-	            // get obj Companion FIXME:rom field "Companion", DissolverRegister
-	            Field companionField = regClass.getField("Companion");
-	            Object companionObj = companionField.get(null);
-	            // From Companion call getINSTANCE()
-	            Method getInstMethod = companionObj.getClass().getMethod("getINSTANCE");
-	            Object dissolverReg = getInstMethod.invoke(companionObj);
-	            // get recipes list
-	            Method getRecipesMethod = regClass.getMethod("getRecipes");
-	            recipeList = (List<Object>) getRecipesMethod.invoke(dissolverReg);
-	        }
-	
-	        ADDER = (recipe) -> recipeList.add(recipe);
-	
+	        RECIPE_LIST = AlRecipesAccessor.recipeList(basePkg, "getDissolverRecipes", "DissolverRegister");
+
 	    } catch (Exception e) {
 	        throw new RuntimeException("Failed to initialize DissolverRecipe integration", e);
 	    }
@@ -431,6 +393,6 @@ private static List<String> L = new ArrayList<>(Arrays.asList(
 	    Object outputSet = PROBABILITY_SET_CONSTRUCTOR.newInstance(groups, relative, rolls);
 	    Object recipe = DISSOLVER_CONSTRUCTOR.newInstance(Ingredient.fromStacks(input), reversible, outputSet);
 	
-	    ADDER.addRecipe(recipe);
+	    RECIPE_LIST.add(recipe);
 	}
 }

@@ -230,7 +230,7 @@ public final class ItemCompound {
         "188,compound_188,C₁₃H₁₈O₂",
         "189,compound_189,C₁₈H₂₁NO₃",
         "190,compound_190,C₁₆H₁₈N₂O₄S",
-        "191,compound_191,C₉H₁₃NO₃",
+        "191,compound_191,C₈H₇N₃O₂",
         "192,compound_192,C₆H₃N₃O₈",
         "193,compound_193,C₆H₆N₄O₇",
         "194,compound_194,N₂H₅NO₃",
@@ -242,7 +242,7 @@ public final class ItemCompound {
         "200,compound_200,CdSe",
         "201,compound_201,C₂₄H₃₈O₁₉",
         "202,compound_202,TiO₂",
-        "203,compound_203,C₈H₇N₃O₂",
+
 
 
         //"206,compound_206,meow",

@@ -206,7 +206,7 @@ item.compound_187.name=Paracetamol (Acetaminophen)
 item.compound_188.name=Ibuprofen
 item.compound_189.name=Codeine
 item.compound_190.name=Penicillin G
-item.compound_191.name=Adrenaline (Epinephrine)
+item.compound_191.name=Luminol
 item.compound_192.name=Trinitroresorcinol (Styphnic acid)
 item.compound_193.name=Ammonium picrate
 item.compound_194.name=Hydrazine nitrate
@@ -218,7 +218,7 @@ item.compound_199.name=Tetracycline
 item.compound_200.name=Cadmium red
 item.compound_201.name=Agarose
 item.compound_202.name=Titanium white
-item.compound_203.name=Luminol
+
 
 
 

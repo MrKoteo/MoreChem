@@ -6,7 +6,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -36,63 +35,15 @@ public class AlRecipesRemover {
 
     static {
         try {
-            // Determine the Alchemistry branch by the presence of classes
-            Class<?> dissolverClass;
-            Class<?> combinerClass;
-            Class<?> dissolverRecipeClass;
-            Class<?> combinerRecipeClass;
-            String basePkg;
+            String basePkg = AlRecipesAccessor.basePackage("");
 
-            try {
-                basePkg = "al132.alchemistry";
-                dissolverClass = Class.forName(basePkg + ".recipes.DissolverRecipe");
-                combinerClass = Class.forName(basePkg + ".recipes.CombinerRecipe");
-                System.out.println("MCRX: Alchemistry original detected");
-            } catch (ClassNotFoundException e) {
-                basePkg = "io.enderdev.alchemistry";
-                dissolverClass = Class.forName(basePkg + ".recipes.DissolverRecipe");
-                combinerClass = Class.forName(basePkg + ".recipes.CombinerRecipe");
-                System.out.println("MCRX: Alchemistry fork (EnderDev) detected");
-            }
-
-            dissolverRecipeClass = dissolverClass;
-            combinerRecipeClass = combinerClass;
-
-            // Getting recipe lists for Dissolver
-            if (basePkg.startsWith("al132")) {
-                // Original: ModRecipes.INSTANCE.getDissolverRecipes()
-                Class<?> modRecipesClass = Class.forName(basePkg + ".recipes.ModRecipes");
-                Field instanceField = modRecipesClass.getField("INSTANCE");
-                Object modRecipes = instanceField.get(null);
-                Method getDissolverList = modRecipesClass.getMethod("getDissolverRecipes");
-                dissolverRecipeList = (List<Object>) getDissolverList.invoke(modRecipes);
-
-                // Combiner: ModRecipes
-                Method getCombinerList = modRecipesClass.getMethod("getCombinerRecipes");
-                combinerRecipeList = (List<Object>) getCombinerList.invoke(modRecipes);
-            } else {
-                // Fork EnderDev: DissolverRegister.Companion.getINSTANCE().getRecipes()
-                Class<?> dissolverRegClass = Class.forName(basePkg + ".recipes.register.DissolverRegister");
-                Field companionField = dissolverRegClass.getField("Companion");
-                Object companionObj = companionField.get(null);
-                Method getInstMethod = companionObj.getClass().getMethod("getINSTANCE");
-                Object dissolverReg = getInstMethod.invoke(companionObj);
-                Method getRecipesMethod = dissolverRegClass.getMethod("getRecipes");
-                dissolverRecipeList = (List<Object>) getRecipesMethod.invoke(dissolverReg);
-
-                // Combiner: CombinerRegister.Companion.getINSTANCE().getRecipes()
-                Class<?> combinerRegClass = Class.forName(basePkg + ".recipes.register.CombinerRegister");
-                Field combinerCompanionField = combinerRegClass.getField("Companion");
-                Object combinerCompanionObj = combinerCompanionField.get(null);
-                Method combinerGetInstMethod = combinerCompanionObj.getClass().getMethod("getINSTANCE");
-                Object combinerReg = combinerGetInstMethod.invoke(combinerCompanionObj);
-                Method combinerGetRecipesMethod = combinerRegClass.getMethod("getRecipes");
-                combinerRecipeList = (List<Object>) combinerGetRecipesMethod.invoke(combinerReg);
-            }
+            // Getting recipe lists
+            dissolverRecipeList = AlRecipesAccessor.recipeList(basePkg, "getDissolverRecipes", "DissolverRegister");
+            combinerRecipeList = AlRecipesAccessor.recipeList(basePkg, "getCombinerRecipes", "CombinerRegister");
 
             // recipes
-            dissolverGetInputMethod = dissolverRecipeClass.getMethod("getInput"); // -> Ingredient
-            combinerGetOutputMethod = combinerRecipeClass.getMethod("getOutput"); // -> ItemStack
+            dissolverGetInputMethod = AlRecipesAccessor.recipeClass(basePkg, "DissolverRecipe").getMethod("getInput"); // -> Ingredient
+            combinerGetOutputMethod = AlRecipesAccessor.recipeClass(basePkg, "CombinerRecipe").getMethod("getOutput"); // -> ItemStack
 
             // Ingredient.getMatchingStacks() (func_193365_a)
             ingredientGetMatchingStacks = Ingredient.class.getMethod("func_193365_a");
